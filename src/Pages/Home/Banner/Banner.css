@@ -1,0 +1,11 @@
+.banner-area {
+  background-image: url(https://i.ibb.co/4MKBsdp/mtbbike.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 750px;
+}
+.text-area {
+  padding-top: 300px;
+  color: white;
+}
