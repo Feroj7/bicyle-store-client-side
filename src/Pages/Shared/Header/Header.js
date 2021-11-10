@@ -1,8 +1,11 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 const Header = () => {
+
+    const { user, logOut } = useAuth();
 
     const style = {
         textDecoration: "none",
@@ -23,6 +26,15 @@ const Header = () => {
                         <Nav className="ms-auto">
                             <NavLink style={style} to="/home">Home</NavLink>
                             <NavLink style={style} to="/explore">Explore</NavLink>
+                            {
+                                user.email ?
+                                    <div>
+                                        <p>{user.name}</p>
+                                        <Button onClick={logOut}>Logout</Button>
+                                    </div>
+                                    :
+                                    <NavLink style={style} to="/login">Login</NavLink>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row, Button } from 'react-bootstrap';
 import { useParams } from 'react-router';
+import useAuth from '../../../hooks/useAuth';
 
 const BookingDetail = () => {
 
     const { cycleId } = useParams();
     const [cycle, setCycle] = useState({});
     const [bookingData, setBookingData] = useState([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         fetch(`http://localhost:5000/cycles/${cycleId}`)
@@ -20,11 +22,22 @@ const BookingDetail = () => {
         const value = e.target.value;
         const newBookingData = { ...bookingData };
         newBookingData[field] = value;
-        console.log(newBookingData);
         setBookingData(newBookingData);
     }
 
     const handleFormSubmit = e => {
+        //send data to server
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
         e.preventDefault();
     }
 
@@ -48,7 +61,7 @@ const BookingDetail = () => {
                                         name="name"
                                         onBlur={handleOnBlur}
                                         type="text"
-                                        placeholder="Enter Name" />
+                                        defaultValue={user?.name} />
                                 </Form.Group>
 
                                 <Form.Group as={Col} controlId="formGridPassword">
@@ -57,7 +70,7 @@ const BookingDetail = () => {
                                         name="email"
                                         onBlur={handleOnBlur}
                                         type="email"
-                                        placeholder="Email" />
+                                        defaultValue={user?.email} />
                                 </Form.Group>
                             </Row>
 
@@ -75,6 +88,7 @@ const BookingDetail = () => {
                                     <Form.Control
                                         name="City"
                                         onBlur={handleOnBlur}
+                                        placeholder="Enter your city"
                                     />
                                 </Form.Group>
 
