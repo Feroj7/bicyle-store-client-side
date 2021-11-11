@@ -28,7 +28,7 @@ const Cycles = () => {
                                     </Card.Text>
                                     <div className="d-flex justify-content-between">
                                         <h5>BDT {cycle?.price} TK</h5>
-                                        <NavLink to={`/booking/${cycle._id}`}>
+                                        <NavLink to={`/order/${cycle._id}`}>
                                             <Button>Buy Now</Button>
                                         </NavLink>
                                     </div>

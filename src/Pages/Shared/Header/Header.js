@@ -1,41 +1,49 @@
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
+import './Header.css';
 
 const Header = () => {
 
     const { user, logOut } = useAuth();
 
-    const style = {
-        textDecoration: "none",
-        color: "white",
-        marginRight: "10px"
-    }
+    // const style = {
+    //     textDecoration: "none",
+    //     color: "white",
+    //     marginRight: "10px"
+    // }
 
 
     return (
         <div>
-            <Navbar bg="dark" expand="lg" variant="dark">
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
                 <Container>
-                    <NavLink style={style} to="/home">
-                        <Navbar.Brand>Bicycle</Navbar.Brand>
-                    </NavLink>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ms-auto">
-                            <NavLink style={style} to="/home">Home</NavLink>
-                            <NavLink style={style} to="/explore">Explore</NavLink>
-                            {
-                                user.email ?
-                                    <div>
-                                        <p>{user.name}</p>
-                                        <Button onClick={logOut}>Logout</Button>
-                                    </div>
-                                    :
-                                    <NavLink style={style} to="/login">Login</NavLink>
-                            }
+                    <Link style={{ textDecoration: 'none' }} to="/home">
+                        <Navbar.Brand className="fw-bold text-decoration-none">Bicycle</Navbar.Brand>
+                    </Link>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" className="text-primary bg-primary" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="ms-auto menu-item">
+                            <Link to="/home">Home</Link>
+                            <Link to="/explore">Explore</Link>
                         </Nav>
+                        {
+                            user?.email ?
+                                <>
+                                    <Nav className="menu-item">
+                                        <Link to="/dashboard">Dashboard</Link>
+                                    </Nav>
+                                    <div className="d-flex me-3 user">
+                                        <p className="pt-3 text-white">{user?.displayName}</p>
+                                    </div>
+                                    <Button onClick={logOut}><i className="fas fa-sign-out-alt me-1"></i> Logout</Button>
+                                </>
+                                :
+                                <Link to="/login">
+                                    <Button><i className="fas fa-sign-in-alt me-1"></i> Login</Button>
+                                </Link>
+                        }
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

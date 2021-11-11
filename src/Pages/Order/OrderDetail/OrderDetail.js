@@ -3,12 +3,15 @@ import { Col, Container, Form, Row, Button } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
 
-const BookingDetail = () => {
+const OrderDetail = () => {
 
+    const { user } = useAuth();
     const { cycleId } = useParams();
     const [cycle, setCycle] = useState({});
-    const [bookingData, setBookingData] = useState([]);
-    const { user } = useAuth();
+
+    const initialInfo = { CustomerName: user.displayName, email: user.email, address: "", city: "", phone: "" };
+    const [bookingData, setBookingData] = useState(initialInfo);
+
 
     useEffect(() => {
         fetch(`http://localhost:5000/cycles/${cycleId}`)
@@ -23,11 +26,15 @@ const BookingDetail = () => {
         const newBookingData = { ...bookingData };
         newBookingData[field] = value;
         setBookingData(newBookingData);
+        console.log(newBookingData);
     }
 
     const handleFormSubmit = e => {
         //send data to server
-        fetch('', {
+        bookingData.price = cycle?.price;
+        bookingData.productName = cycle?.name;
+        bookingData.image = cycle?.img;
+        fetch('http://localhost:5000/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -35,14 +42,17 @@ const BookingDetail = () => {
             body: JSON.stringify(bookingData)
         })
             .then(res => res.json())
-            .then(data => {
-                console.log(data);
+            .then(result => {
+                console.log(result);
+                if (result.insertedId) {
+                    alert('Your Order Placed Successfully');
+                };
             })
         e.preventDefault();
     }
 
     return (
-        <div className="my-5">
+        <div className="my-5 pt-5">
             <Container fluid>
                 <Row xs={1} md={2} className="g-4">
                     <Col>
@@ -61,7 +71,7 @@ const BookingDetail = () => {
                                         name="name"
                                         onBlur={handleOnBlur}
                                         type="text"
-                                        defaultValue={user?.name} />
+                                        defaultValue={user?.displayName} />
                                 </Form.Group>
 
                                 <Form.Group as={Col} controlId="formGridPassword">
@@ -111,4 +121,4 @@ const BookingDetail = () => {
     );
 };
 
-export default BookingDetail;
+export default OrderDetail;

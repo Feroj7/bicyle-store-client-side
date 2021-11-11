@@ -15,7 +15,7 @@ const Explore = () => {
     }, []);
 
     return (
-        <div>
+        <div className="pt-5">
             <Header></Header>
             <div className="my-5">
                 <h2>Popular Cycles {cycles.length}</h2>
@@ -32,7 +32,7 @@ const Explore = () => {
                                         </Card.Text>
                                         <div className="d-flex justify-content-between">
                                             <h5>BDT {cycle?.price} TK</h5>
-                                            <NavLink to={`/booking/${cycle?._id}`}>
+                                            <NavLink to={`/order/${cycle?._id}`}>
                                                 <Button>Buy Now</Button>
                                             </NavLink>
                                         </div>

@@ -1,17 +1,17 @@
 import React from 'react';
 import Footer from '../../Shared/Footer/Footer';
 import Header from '../../Shared/Header/Header';
-import BookingDetail from '../BookingDetail/BookingDetail';
+import OrderDetail from '../OrderDetail/OrderDetail';
 
-const Booking = () => {
+const Order = () => {
 
     return (
         <div>
             <Header></Header>
-            <BookingDetail></BookingDetail>
+            <OrderDetail></OrderDetail>
             <Footer></Footer>
         </div>
     );
 };
 
-export default Booking;
+export default Order;
