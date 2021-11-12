@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row, Button } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const OrderDetail = () => {
 
+    const history = useHistory();
     const { user } = useAuth();
     const { cycleId } = useParams();
     const [cycle, setCycle] = useState({});
 
-    const initialInfo = { CustomerName: user.displayName, email: user.email, address: "", city: "", phone: "" };
-    const [bookingData, setBookingData] = useState(initialInfo);
+    const initialInfo = { customerName: user.displayName, email: user.email, address: "", city: "", phone: "" };
+    const [orderData, setOrderData] = useState(initialInfo);
 
 
     useEffect(() => {
@@ -23,47 +25,54 @@ const OrderDetail = () => {
     const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
-        const newBookingData = { ...bookingData };
-        newBookingData[field] = value;
-        setBookingData(newBookingData);
-        console.log(newBookingData);
+        const newOrderData = { ...orderData };
+        newOrderData[field] = value;
+        setOrderData(newOrderData);
     }
 
     const handleFormSubmit = e => {
         //send data to server
-        bookingData.price = cycle?.price;
-        bookingData.productName = cycle?.name;
-        bookingData.image = cycle?.img;
+        orderData.price = cycle?.price;
+        orderData.productName = cycle?.name;
+        orderData.image = cycle?.img;
+        orderData.status = "Pending";
         fetch('http://localhost:5000/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(bookingData)
+            body: JSON.stringify(orderData)
         })
             .then(res => res.json())
             .then(result => {
-                console.log(result);
                 if (result.insertedId) {
-                    alert('Your Order Placed Successfully');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Order Placed Successfully',
+                        showConfirmButton: false,
+                        timer: 1300
+                    });
+                    history.push("/");
                 };
             })
         e.preventDefault();
     }
 
     return (
-        <div className="my-5 pt-5">
+        <div className="my-5 py-5">
             <Container fluid>
                 <Row xs={1} md={2} className="g-4">
-                    <Col>
-                        <img className="img-fluid" src={cycle?.img} alt="cycle" />
-                        <h2>{cycle?.name}</h2>
-                        <h1 style={{ backgroundColor: 'black', color: 'white' }}>Description</h1>
-                        <p>{cycle?.desc}</p>
+                    <Col className="text-start">
+                        <img className="img-fluid mb-5" src={cycle?.img} alt="cycle" />
+                        <h2 className="mb-3">{cycle?.name}</h2>
+                        <h4>৳ {cycle?.price}</h4>
+                        <h1 className="p-2 mt-3" style={{ backgroundColor: 'black', color: 'white' }}>Description</h1>
+                        <p className="mt-3">{cycle?.desc}</p>
                     </Col>
                     <Col>
-                        <h2>Buy This Cycle</h2>
-                        <Form onSubmit={handleFormSubmit} className="text-start mt-4" style={{ width: '75%', margin: 'auto' }}>
+                        <h2>Buy {cycle?.name}</h2>
+                        <Form onSubmit={handleFormSubmit} className="text-start mt-5" style={{ width: '75%', margin: 'auto' }}>
                             <Row className="mb-3">
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label>Name</Form.Label>
@@ -110,7 +119,7 @@ const OrderDetail = () => {
                                         placeholder="Phone No" />
                                 </Form.Group>
                             </Row>
-                            <Button variant="primary" type="submit">
+                            <Button className="w-100 mt-4" variant="warning" type="submit">
                                 Submit
                             </Button>
                         </Form>

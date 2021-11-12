@@ -1,56 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Row, Col, Card } from 'react-bootstrap';
+import { Button, Row, Col, Card, Container } from 'react-bootstrap';
 import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const MyOrders = () => {
 
     const { user } = useAuth();
     const [orders, setOrders] = useState([]);
+    console.log(user.email);
 
     useEffect(() => {
-        const url = `http://localhost:5000/orders?email=${user?.email}`;
-        fetch(url)
+        fetch(`http://localhost:5000/orders?email=${user.email}`)
             .then(res => res.json())
             .then(data => setOrders(data))
     }, [user.email]);
 
     const handleCancelOrder = id => {
-        const proceed = window.confirm("Are you sure, You want to cancel this order?");
-        if (proceed) {
-            fetch(`http://localhost:5000/orders/${id}`, {
-                method: 'DELETE',
-            })
-                .then(res => res.json())
-                .then(result => {
-                    if (result.deletedCount > 0) {
-                        const remaining = orders.filter(order => order._id !== id);
-                        setOrders(remaining);
-                    }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete this product?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/orders/${id}`, {
+                    method: 'DELETE',
                 })
-        }
-
+                    .then(res => res.json())
+                    .then(result => {
+                        if (result.deletedCount > 0) {
+                            const remaining = orders.filter(order => order._id !== id);
+                            setOrders(remaining);
+                        }
+                    })
+                Swal.fire(
+                    'Deleted!',
+                    'Your product has been deleted.',
+                    'success'
+                )
+            }
+        })
     }
 
     return (
-        <div className="mt-5 pt-5">
+        <div className="mt-5">
             <h2>You have {orders?.length} Orders</h2>
-            <Row xs={1} md={2} className="g-4">
-                {
-                    orders.map(order => <Col key={order._id}>
-                        <Card>
-                            <Card.Img className="img-fluid w-50 m-auto" variant="top" src={order.image} />
-                            <Card.Body>
-                                <Card.Title>{order.productName}</Card.Title>
-                                <h5>Price: {order.price}</h5>
-                                <Button
-                                    onClick={() => handleCancelOrder(order._id)} variant="danger">
-                                    Cancel
-                                </Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>)
+            <Container>
+                {orders.length === 0 ? <div className="m-auto mt-5">
+                    <img className="img-fluid w-25 h-25" src="https://i.ibb.co/4W6j1TN/undraw-No-data-re-kwbl.png" alt="" />
+                    <h3 className="text-secondary">You have No Order</h3>
+                </div>
+                    :
+                    <Row xs={1} md={1} className="g-4 mt-4">
+                        {
+                            orders.map(order => <Col key={order._id}>
+                                <div style={{ border: '1px solid gray', padding: '15px' }} className="d-flex">
+                                    <div className="">
+                                        <Card.Img className="img-fluid w-50 m-auto" variant="top" src={order.image} />
+                                    </div>
+                                    <div className="text-start">
+                                        <h6 className={order.status === "Pending" ? 'text-danger mt-2 me-2' : 'text-success mt-2 me-2'}>{order.status}</h6>
+                                        <Card.Title>{order.productName}</Card.Title>
+                                        <h5>Price: {order.price}</h5>
+                                        <Button
+                                            onClick={() => handleCancelOrder(order._id)} variant="danger">
+                                            Cancel
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Col>)
+                        }
+                    </Row>
                 }
-            </Row>
+            </Container>
         </div>
     );
 };

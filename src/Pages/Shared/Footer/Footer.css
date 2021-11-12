@@ -2,14 +2,20 @@
   background-color: #212529;
   padding: 50px;
   margin-top: auto;
+  position: relative;
+  z-index: 1;
 }
-.icon-style {
-  background-color: #0d6efd;
+.social-icon i {
   margin-right: 20px;
   font-size: 20px;
   padding: 8px 10px;
+  background: hsla(0, 0%, 68.6%, 0.3);
   border-radius: 10px;
-  color: white;
+  color: #afafaf;
   transition: all 0.3s;
   display: inline;
+}
+.social-icon i:hover {
+  background-color: #ff8e69;
+  color: white;
 }

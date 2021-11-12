@@ -4,7 +4,7 @@ import './Footer.css';
 
 const Footer = () => {
     return (
-        <div className="footer-area text-white">
+        <div className="footer-area text-white pt-5">
             <Container>
                 <Row xs={1} lg={3}>
                     <Col className="text-start mb-3">
@@ -12,10 +12,12 @@ const Footer = () => {
                             <h1 className="ms-2">Bicycle</h1>
                         </div>
                         <p>This is a bicycle selling website named Bicycle.You can choose different bicycle from here.</p>
-                        <i className="fab fa-whatsapp icon-style"></i>
-                        <i className="fab fa-facebook-f icon-style"></i>
-                        <i className="fab fa-twitter icon-style"></i>
-                        <i className="fab fa-google icon-style"></i>
+                        <div className="social-icon mt-4">
+                            <i className="fab fa-instagram"></i>
+                            <i className="fab fa-facebook-f"></i>
+                            <i className="fab fa-twitter"></i>
+                            <i className="fab fa-whatsapp"></i>
+                        </div>
                     </Col>
                     <Col className="mb-3">
                         <h3 className="mb-3">Support</h3>

@@ -8,12 +8,6 @@ const Header = () => {
 
     const { user, logOut } = useAuth();
 
-    // const style = {
-    //     textDecoration: "none",
-    //     color: "white",
-    //     marginRight: "10px"
-    // }
-
 
     return (
         <div>
@@ -34,14 +28,12 @@ const Header = () => {
                                     <Nav className="menu-item">
                                         <Link to="/dashboard">Dashboard</Link>
                                     </Nav>
-                                    <div className="d-flex me-3 user">
-                                        <p className="pt-3 text-white">{user?.displayName}</p>
-                                    </div>
-                                    <Button onClick={logOut}><i className="fas fa-sign-out-alt me-1"></i> Logout</Button>
+                                    <span className="text-warning ms-5 me-3">{user?.displayName}</span>
+                                    <Button variant="warning" onClick={logOut}><i className="fas fa-sign-out-alt me-1"></i> Logout</Button>
                                 </>
                                 :
                                 <Link to="/login">
-                                    <Button><i className="fas fa-sign-in-alt me-1"></i> Login</Button>
+                                    <Button variant="warning"><i className="fas fa-sign-in-alt me-1"></i> Login</Button>
                                 </Link>
                         }
                     </Navbar.Collapse>
