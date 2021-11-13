@@ -21,7 +21,7 @@ const Explore = () => {
                 <h1>Top Rated Cycles</h1>
                 <p className="mb-5">Choose best cycle from here</p>
                 <Container>
-                    <Row xs={1} md={3} className="g-5">
+                    <Row xs={1} md={3} className="g-4">
                         {
                             cycles.map(cycle => <div className="cycle-card" key={cycle?._id}>
                                 <div className="border py-3">
