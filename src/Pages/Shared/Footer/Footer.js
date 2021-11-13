@@ -33,7 +33,7 @@ const Footer = () => {
                         </div>
                         <div>
                             <h5><i className="far fa-envelope"></i> Email</h5>
-                            <p>contact@bicycle.com</p>
+                            <p>contact@bicycle-store.com</p>
                         </div>
                         <div>
                             <h5><i className="fas fa-map-marker-alt"></i> Address</h5>
@@ -41,7 +41,7 @@ const Footer = () => {
                         </div>
                     </Col>
                 </Row>
-                <span>Copyright &copy; 2021 || All Rights Reserved By Bicycle</span>
+                <span>Copyright &copy; 2021 || Developed By <span className="text-warning">Feroj Alam</span> </span>
             </Container>
         </div>
     );
