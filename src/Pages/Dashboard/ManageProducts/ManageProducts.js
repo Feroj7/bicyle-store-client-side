@@ -8,7 +8,7 @@ const ManageProducts = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/cycles')
+        fetch('https://young-falls-65140.herokuapp.com/cycles')
             .then(res => res.json())
             .then(data => setProducts(data))
     }, []);
@@ -24,7 +24,7 @@ const ManageProducts = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/cycles/${id}`, {
+                fetch(`https://young-falls-65140.herokuapp.com/cycles/${id}`, {
                     method: 'DELETE',
                 })
                     .then(res => res.json())

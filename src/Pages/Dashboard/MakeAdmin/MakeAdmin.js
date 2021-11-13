@@ -12,7 +12,7 @@ const MakeAdmin = () => {
 
     const handleAdminForm = e => {
         const user = { email };
-        fetch('http://localhost:5000/users/admin', {
+        fetch('https://young-falls-65140.herokuapp.com/users/admin', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -39,7 +39,7 @@ const MakeAdmin = () => {
     return (
         <div className="mt-5">
             <h2>Make an Admin</h2>
-            <Form onSubmit={handleAdminForm} className="w-25 m-auto text-start">
+            <Form onSubmit={handleAdminForm} className="w-50 m-auto text-start">
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Email</Form.Label>
                     <Form.Control

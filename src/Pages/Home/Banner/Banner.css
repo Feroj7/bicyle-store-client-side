@@ -12,3 +12,17 @@
 .text-area h1 {
   font-size: 48px;
 }
+
+/* responsiveness for mobile device */
+@media screen and (max-width: 600px) {
+  .text-area {
+    padding-top: 100px;
+    color: black;
+  }
+  .text-area h1 {
+    font-size: 38px;
+  }
+  .banner-area {
+    height: 500px;
+  }
+}

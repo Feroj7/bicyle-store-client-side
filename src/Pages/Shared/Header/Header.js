@@ -14,7 +14,7 @@ const Header = () => {
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
                 <Container>
                     <Link style={{ textDecoration: 'none' }} to="/home">
-                        <Navbar.Brand className="fw-bold text-decoration-none">Bicycle</Navbar.Brand>
+                        <Navbar.Brand className="fw-bold text-decoration-none">Bicycle Store</Navbar.Brand>
                     </Link>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" className="text-primary bg-primary" />
                     <Navbar.Collapse id="responsive-navbar-nav">
@@ -28,7 +28,10 @@ const Header = () => {
                                     <Nav className="menu-item">
                                         <Link to="/dashboard">Dashboard</Link>
                                     </Nav>
-                                    <span className="text-warning ms-5 me-3">{user?.displayName}</span>
+                                    <div className="d-flex me-3 user">
+                                        {user?.photoURL && <img className="img-fluid user-img mt-2" src={user?.photoURL} alt="userimage" />}
+                                        <p className="pt-3 ps-2 text-warning">{user?.displayName}</p>
+                                    </div>
                                     <Button variant="warning" onClick={logOut}><i className="fas fa-sign-out-alt me-1"></i> Logout</Button>
                                 </>
                                 :

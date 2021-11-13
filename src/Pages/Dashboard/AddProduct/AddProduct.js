@@ -7,7 +7,7 @@ const AddProduct = () => {
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = data => {
-        fetch('http://localhost:5000/cycles', {
+        fetch('https://young-falls-65140.herokuapp.com/cycles', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { NavLink, useHistory } from 'react-router-dom';
+import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 
 const SignUp = () => {
 
-    const { registerUser } = useAuth();
+    const { authError, registerUser, signInWithGoogle } = useAuth();
     const [loginData, setLoginData] = useState({});
+    const location = useLocation();
     const history = useHistory();
 
     const handleOnBlur = e => {
@@ -20,11 +22,20 @@ const SignUp = () => {
 
     const handleFormSubmit = e => {
         if (loginData.password !== loginData.password2) {
-            alert('Your password did not match');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Your password did not match!',
+                timer: 3000
+            });
             return
         }
         registerUser(loginData.email, loginData.password, loginData.name, history)
         e.preventDefault();
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history)
     }
 
     return (
@@ -77,11 +88,14 @@ const SignUp = () => {
                                 <p className="mb-2">
                                     Already have an account?</p>
                             </NavLink>
-                            <Button onClick={handleOnBlur} variant="primary">
+                            <Button className="mb-3" onClick={handleGoogleSignIn} variant="primary">
                                 <img style={{ width: "30px" }} className="me-2" src="https://i.ibb.co/pd2Nncy/google.png" alt="" />
                                 Sign In With Google
                             </Button>
                         </div>
+                        {authError && <Alert variant="danger">
+                            {authError}
+                        </Alert>}
                     </Col>
                 </Row>
             </Container>

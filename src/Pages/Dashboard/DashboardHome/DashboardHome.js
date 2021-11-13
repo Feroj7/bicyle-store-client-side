@@ -12,6 +12,9 @@ const DashboardHome = () => {
                 <h1>Welcome <span className="text-primary">{user?.displayName}</span></h1>
                 <h5>{user?.email}</h5>
             </div>
+            <div>
+                <img className="img-fluid" src="https://image.freepik.com/free-vector/office-workers-analyzing-researching-business-data_74855-4445.jpg" alt="dashboard" />
+            </div>
         </div>
     );
 };

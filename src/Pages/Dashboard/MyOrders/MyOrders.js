@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Button, Row, Col, Card, Container } from 'react-bootstrap';
 import useAuth from '../../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import './MyOrder.css';
 
 const MyOrders = () => {
 
     const { user } = useAuth();
     const [orders, setOrders] = useState([]);
-    console.log(user.email);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/orders?email=${user.email}`)
+        fetch(`https://young-falls-65140.herokuapp.com/orders?email=${user.email}`)
             .then(res => res.json())
             .then(data => setOrders(data))
     }, [user.email]);
@@ -26,7 +26,7 @@ const MyOrders = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/orders/${id}`, {
+                fetch(`https://young-falls-65140.herokuapp.com/orders/${id}`, {
                     method: 'DELETE',
                 })
                     .then(res => res.json())
@@ -57,7 +57,7 @@ const MyOrders = () => {
                     <Row xs={1} md={1} className="g-4 mt-4">
                         {
                             orders.map(order => <Col key={order._id}>
-                                <div style={{ border: '1px solid gray', padding: '15px' }} className="d-flex">
+                                <div style={{ border: '1px solid gray', padding: '15px' }} className="d-flex order-card">
                                     <div className="">
                                         <Card.Img className="img-fluid w-50 m-auto" variant="top" src={order.image} />
                                     </div>

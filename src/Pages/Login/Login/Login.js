@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import './Login.css';
@@ -7,7 +7,7 @@ import './Login.css';
 
 const Login = () => {
 
-    const { loginUser } = useAuth();
+    const { authError, loginUser, signInWithGoogle } = useAuth();
     const [loginData, setLoginData] = useState({});
 
     const location = useLocation();
@@ -24,6 +24,10 @@ const Login = () => {
     const handleFormSubmit = e => {
         loginUser(loginData.email, loginData.password, location, history)
         e.preventDefault();
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history)
     }
 
     return (
@@ -54,19 +58,19 @@ const Login = () => {
                                     placeholder="Password"
                                     required />
                                 <br />
-                                {/* {
-                                    user.displayName ? <p></p> : <p className="text-danger">{error}</p>
-                                } */}
                                 <input className="mb-3 btn btn-warning w-50" type="submit" value="Login" />
                             </form>
                             <NavLink to="/signup">
                                 <p className="mb-2">New to Bicycle Store ?</p>
                             </NavLink>
-                            <Button onClick={handleOnBlur} variant="primary">
+                            <Button className="mb-3" onClick={handleGoogleSignIn} variant="primary">
                                 <img style={{ width: "30px" }} className="me-2" src="https://i.ibb.co/pd2Nncy/google.png" alt="" />
                                 Sign In With Google
                             </Button>
                         </div>
+                        {authError && <Alert variant="danger">
+                            {authError}
+                        </Alert>}
                     </Col>
                 </Row>
             </Container>

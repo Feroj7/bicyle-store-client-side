@@ -8,7 +8,7 @@ const ManageOrders = () => {
     const [status, setStatus] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:5000/orders")
+        fetch("https://young-falls-65140.herokuapp.com/orders")
             .then(res => res.json())
             .then(data => setOrders(data))
     }, [status]);
@@ -24,7 +24,7 @@ const ManageOrders = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/orders/${id}`, {
+                fetch(`https://young-falls-65140.herokuapp.com/orders/${id}`, {
                     method: 'DELETE',
                 })
                     .then(res => res.json())
@@ -45,7 +45,7 @@ const ManageOrders = () => {
 
     const handleStatus = id => {
         setStatus(false);
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://young-falls-65140.herokuapp.com/orders/${id}`, {
             method: 'PUT'
         })
             .then(res => res.json())

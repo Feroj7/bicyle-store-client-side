@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, updateProfile, signOut } from "firebase/auth";
 import initializeFirebase from "../Pages/Login/Firebase/firebase.init";
+
 
 //initialize Firebase
 initializeFirebase();
@@ -13,6 +14,7 @@ const useFirebase = () => {
 
 
     const auth = getAuth();
+    const googleProvider = new GoogleAuthProvider();
 
     const registerUser = (email, password, name, history) => {
         setIsLoading(true);
@@ -22,7 +24,7 @@ const useFirebase = () => {
                 const newUser = { email, displayName: name };
                 setUser(newUser);
                 //save user to database
-                saveUser(email, name)
+                saveUser(email, name, 'POST')
                 //send name to firebase after user creation
                 updateProfile(auth.currentUser, {
                     displayName: name
@@ -55,7 +57,22 @@ const useFirebase = () => {
 
     }
 
-   
+    const signInWithGoogle = (location, history) => {
+        setIsLoading(true);
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                const user = result.user;
+                //send user to database
+                saveUser(user.email, user.displayName, 'PUT')
+                setAuthError('');
+                const destination = location?.state?.from || "/";
+                history.replace(destination);
+            }).catch((error) => {
+                setAuthError(error.message);
+            })
+            .finally(() => setIsLoading(false));
+
+    }
 
     // observe the user state 
     useEffect(() => {
@@ -72,7 +89,7 @@ const useFirebase = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user.email}`)
+        fetch(`https://young-falls-65140.herokuapp.com/users/${user.email}`)
             .then(res => res.json())
             .then(data => setAdmin(data.admin))
     }, [user.email])
@@ -80,17 +97,17 @@ const useFirebase = () => {
     const logOut = () => {
         setIsLoading(true);
         signOut(auth).then(() => {
-            // Sign-out successful.
+            setAuthError('');
         }).catch((error) => {
-            // An error happened.
+            setAuthError(error.message)
         })
             .finally(() => setIsLoading(false));;
     }
 
-    const saveUser = (email, displayName) => {
+    const saveUser = (email, displayName, method) => {
         const user = { email, displayName };
-        fetch('http://localhost:5000/users', {
-            method: 'POST',
+        fetch('https://young-falls-65140.herokuapp.com/users', {
+            method: method,
             headers: {
                 'content-type': 'application/json'
             },
@@ -107,6 +124,7 @@ const useFirebase = () => {
         isLoading,
         registerUser,
         loginUser,
+        signInWithGoogle,
         authError,
         logOut,
     }

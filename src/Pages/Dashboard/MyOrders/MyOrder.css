@@ -1,0 +1,6 @@
+/* responsiveness for mobile */
+@media screen and (max-width: 600px) {
+  .order-card {
+    flex-direction: column;
+  }
+}

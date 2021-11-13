@@ -8,7 +8,7 @@ const Cycles = () => {
     const [cycles, setCycles] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/cycles')
+        fetch('https://young-falls-65140.herokuapp.com/cycles')
             .then(res => res.json())
             .then(data => setCycles(data.slice(0, 6)))
     }, []);

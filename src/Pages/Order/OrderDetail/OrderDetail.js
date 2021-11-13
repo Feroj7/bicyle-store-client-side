@@ -16,7 +16,7 @@ const OrderDetail = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/cycles/${cycleId}`)
+        fetch(`https://young-falls-65140.herokuapp.com/cycles/${cycleId}`)
             .then(res => res.json())
             .then(data => setCycle(data))
     }, [cycleId]);
@@ -36,7 +36,7 @@ const OrderDetail = () => {
         orderData.productName = cycle?.name;
         orderData.image = cycle?.img;
         orderData.status = "Pending";
-        fetch('http://localhost:5000/orders', {
+        fetch('https://young-falls-65140.herokuapp.com/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -77,6 +77,7 @@ const OrderDetail = () => {
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
+                                        required
                                         name="name"
                                         onBlur={handleOnBlur}
                                         type="text"
@@ -86,6 +87,7 @@ const OrderDetail = () => {
                                 <Form.Group as={Col} controlId="formGridPassword">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control
+                                        required
                                         name="email"
                                         onBlur={handleOnBlur}
                                         type="email"
@@ -96,6 +98,7 @@ const OrderDetail = () => {
                             <Form.Group className="mb-3" controlId="formGridAddress1">
                                 <Form.Label>Address</Form.Label>
                                 <Form.Control
+                                    required
                                     name="address"
                                     onBlur={handleOnBlur}
                                     placeholder="1234 Main St" />
@@ -105,6 +108,7 @@ const OrderDetail = () => {
                                 <Form.Group as={Col} controlId="formGridZip">
                                     <Form.Label>City</Form.Label>
                                     <Form.Control
+                                        required
                                         name="City"
                                         onBlur={handleOnBlur}
                                         placeholder="Enter your city"
@@ -114,6 +118,7 @@ const OrderDetail = () => {
                                 <Form.Group as={Col} controlId="formGridCity">
                                     <Form.Label>Phone No</Form.Label>
                                     <Form.Control
+                                        required
                                         name="phone"
                                         onBlur={handleOnBlur}
                                         placeholder="Phone No" />

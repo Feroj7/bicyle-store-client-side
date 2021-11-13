@@ -9,7 +9,7 @@ const Footer = () => {
                 <Row xs={1} lg={3}>
                     <Col className="text-start mb-3">
                         <div className="d-flex mb-4">
-                            <h1 className="ms-2">Bicycle</h1>
+                            <h1 className="ms-2">Bicycle Store</h1>
                         </div>
                         <p>This is a bicycle selling website named Bicycle.You can choose different bicycle from here.</p>
                         <div className="social-icon mt-4">
